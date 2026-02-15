@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sin Envolturas — Preventa</title>
+  <meta name="description" content="Preventa de Sin Envolturas. Crea tu lista, compártela y recibe tus regalos sin complicarte." />
+
+  <style>
+    :root{
+      /* Paleta basada en tu captura (blanco + morado + botón coral) */
+      --bg: #fbf7ff;
+      --surface: #ffffff;
+      --surface2: #faf4ff;
+      --text: #2b0b3f;     /* morado oscuro */
+      --muted: #6e5a7b;    /* morado gris */
+      --line: rgba(43,11,63,.10);
+      --accent: #ff6b6b;   /* coral botón */
+      --accent2: #b28cff;  /* lila */
+      --shadow: 0 18px 60px rgba(43,11,63,.10);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 450px at 15% 0%, rgba(178,140,255,.18), transparent 60%),
+        radial-gradient(800px 450px at 85% 15%, rgba(255,107,107,.14), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+    }
+
+    /* Tipografía estilo tu web (títulos serif) */
+    h1, h2, h3{
+      font-family: Georgia, "Times New Roman", Times, serif;
+      letter-spacing: -0.02em;
+      margin:0;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .container{ max-width: 1120px; margin: 0 auto; padding: 18px 16px 72px; }
+
+    /* NAV */
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      position: sticky; top: 12px; z-index: 10;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width:0; }
+    .brand svg{
+      width: 160px;              /* ✅ logo SVG más grande */
+      height: auto;
+      color: var(--text);
+    }
+    .navActions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .navLink{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 14px;
+    }
+    .navLink:hover{ border-color: var(--line); background: rgba(178,140,255,.08); }
+
+    /* BOTONES */
+    .btn{
+      appearance:none; border:none; cursor:pointer;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      background: var(--accent);
+      color: #2b0b3f;
+      box-shadow: 0 12px 30px rgba(255,107,107,.25);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .btnGhost{
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+      box-shadow: none;
+    }
+    .btnSmall{ padding: 10px 12px; border-radius: 999px; font-size: 14px; }
+
+    /* LAYOUT */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    /* HERO */
+    .hero{ padding: 26px 24px; }
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(43,11,63,.60);
+      font-weight: 800;
+    }
+    h1{ font-size: 46px; line-height: 1.03; margin: 10px 0 10px; }
+    @media (max-width: 520px){ h1{ font-size: 34px; } }
+    .sub{
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 60ch;
+      margin: 0 0 16px;
+    }
+    .heroCtas{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+
+    .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+    .badge{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(178,140,255,.08);
+      color: rgba(43,11,63,.85);
+      font-weight: 750;
+      font-size: 13px;
+    }
+
+    /* BENEFICIOS */
+    .benefits{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 0 24px 24px;
+    }
+    @media (max-width: 900px){ .benefits{ grid-template-columns: 1fr; } }
+    .benefit{
+      background: rgba(250,244,255,.75);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .benefit b{ display:block; margin-bottom: 6px; font-size: 16px; }
+    .benefit p{ margin:0; color: var(--muted); }
+
+    /* CÓMO SE USA */
+    .section{ padding: 22px 24px; border-top: 1px solid var(--line); }
+    .section h2{ font-size: 26px; margin-bottom: 10px; }
+    .steps{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .step{
+      display:flex; gap:14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.85);
+      align-items:flex-start;
+    }
+    .num{
+      width: 36px; height: 36px; border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(178,140,255,.18);
+      border: 1px solid rgba(178,140,255,.28);
+      font-weight: 900;
+      color: var(--text);
+      flex: 0 0 auto;
+    }
+    .step p{ margin:4px 0 0; color: var(--muted); }
+
+    .videoRow{
+      margin-top: 14px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .videoLink{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.75);
+      color: var(--text);
+      font-weight: 850;
+    }
+    .videoLink:hover{ background: rgba(178,140,255,.08); }
+
+    /* PRICING */
+    .side{ padding: 18px; }
+    .priceBox{
+      background: linear-gradient(180deg, rgba(178,140,255,.18), rgba(255,107,107,.08));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .priceTitle{ color: rgba(43,11,63,.70); font-weight: 900; letter-spacing:.12em; text-transform: uppercase; font-size: 12px; }
+    .price{
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 54px;
+      margin: 10px 0 6px;
+    }
+    .price small{ font-size: 16px; color: var(--muted); font-family: ui-sans-serif, system-ui; font-weight: 700; }
+    .priceNote{ margin: 0 0 14px; color: var(--muted); }
+    .ul{
+      margin: 12px 0 0; padding-left: 18px; color: var(--muted);
+    }
+    .ul li{ margin: 6px 0; }
+    .ctaBox{ margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap; }
+
+    /* FAQ */
+    details{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.82);
+    }
+    details + details{ margin-top: 10px; }
+    summary{ cursor:pointer; font-weight: 850; }
+    details p{ margin: 10px 0 0; color: var(--muted); }
+
+    /* FOOTER */
+    .footer{
+      margin-top: 18px;
+      color: rgba(110,90,123,.95);
+      font-size: 12px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      padding: 0 4px;
+    }
+
+    /* MODAL (captura de datos) */
+    .modalBack{
+      position: fixed; inset: 0;
+      display:none; align-items:center; justify-content:center;
+      padding: 18px;
+      background: rgba(43,11,63,.35);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+    }
+    .modal{
+      width: min(560px, 100%);
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalHeader{
+      padding: 14px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .modalHeader h3{ font-size: 18px; }
+    .x{
+      border: 1px solid var(--line);
+      background: rgba(178,140,255,.08);
+      padding: 8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+    form{ padding: 14px 16px; }
+    label{ display:block; margin: 10px 0 6px; font-size: 12px; font-weight: 800; color: rgba(43,11,63,.70); }
+    input, select{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+    input::placeholder{ color: rgba(110,90,123,.65); }
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 520px){ .row{ grid-template-columns:1fr; } }
+    .hint{ margin-top: 10px; font-size: 12px; color: rgba(110,90,123,.9); }
+    .success{
+      display:none;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(255,107,107,.10);
+      color: rgba(43,11,63,.92);
+      font-weight: 750;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- NAV -->
+    <header class="nav">
+      <div class="brand" aria-label="Marca Sin Envolturas">
+        <!-- Logo SVG (más grande) -->
+        <svg viewBox="0 0 230 27" role="img" aria-label="Logo">
+          <path fill="currentColor" d="m29.951 16.117-.813-2.841c-.11-.381-.58-.47-.805-.15-.87 1.238-2.857 2.68-5.398 1.694 1.659-3.227 2.04-6.603.882-9.15-1.319-2.996-5.273-5.704-9.095-1.527l-.031.041c-2.564 3.13-1.69 8.478 1.911 12.24q-.19.184-.39.363-.438.389-.893.727c-3.519-5.376-6.76-6.41-9.748-5.233-1.987.756-5.63 4.96-2.077 9.462 2.022 2.562 5.683 3.116 9.486 1.827.347 2.08.102 4.058-.613 5.533-.205.419.1.914.542.896l2.415-.1c.522-.022.987-.352 1.213-.853.909-2.005 1.057-4.694.368-7.466h.006a18 18 0 0 0 3.068-2.627c3.296 1.67 7.741 1.657 9.828-1.785.189-.312.245-.697.143-1.053zm-22.557 3.25c-1.65-.704-1.063-2.142-1.063-2.142s.403-1.37 2.207-.618 2.943 2.794 2.943 2.794c-1.329.43-2.952.449-4.087-.035zm11.805-6.5s-1.65-1.339-2-3.219c-.352-1.88.168-3.027 1.352-3.175 1.01-.126 1.384.958 1.458 1.254s.632 2.216-.81 5.14M46.868 15.392c-2.203-.569-3.399-1.038-3.399-1.883 0-.528.461-1.144 1.755-1.144s2.701 1.038 3.711 2.775l.05.085 3.53-1.614-.048-.09C50.939 10.69 48.162 9 45.035 9c-4.605 0-6.24 2.444-6.24 4.538s1.395 3.42 4.816 4.336c2.935.728 4.245 1.464 4.245 2.391 0 .871-.679 1.37-1.865 1.37-1.79 0-3.298-1.259-4.365-3.644l-.04-.09L38 19.244l.028.088C39.225 22.882 42.333 25 46.341 25c3.642 0 6.183-1.995 6.183-4.85 0-3.068-2.797-4.033-5.662-4.76zM59.148 9.507h-4.434v15.07h4.434zM56.854 2c-1.417 0-2.566 1.17-2.566 2.608s1.152 2.608 2.566 2.608 2.537-1.194 2.537-2.608S58.23 2 56.853 2M96.287 18.775c-.16 1.076-1.253 2.235-3.266 2.235-2.13 0-3.507-1.379-3.507-3.508v-.214h11.179v-.1c0-5.32-2.715-8.132-7.852-8.132-4.753 0-7.82 3.203-7.82 8.161s3.02 7.724 7.883 7.724 7.732-3.17 7.792-6.151v-.1h-4.39l-.013.085zm-6.593-3.318c.448-1.57 1.689-2.467 3.418-2.467s2.897.874 3.298 2.467zM129.465 9.507l-2.427 7.07-1.145 3.896-1.231-3.901-2.458-6.994-.026-.07h-4.418l5.356 15.07h5.472l5.356-15.07zM142.092 9.058c-4.841 0-8.095 3.192-8.095 7.942s3.254 7.944 8.095 7.944 8.127-3.192 8.127-7.944c0-4.753-3.267-7.942-8.127-7.942m0 3.964c2.172 0 3.63 1.599 3.63 3.98 0 2.383-1.458 3.95-3.63 3.95s-3.597-1.588-3.597-3.95c0-2.36 1.445-3.98 3.597-3.98M156.862 3.734h-4.434v20.844h4.434zM167.845 20.802c-1.503 0-2.263-.675-2.263-2.004V13.06h4.071V9.504h-4.071V5.048h-4.434v4.456h-3.068v3.556h3.068v6.428c0 3.646 1.783 5.495 5.302 5.495 1.215 0 2.493-.285 3.187-.708l.048-.029v-3.775l-.146.052c-.555.203-1.016.276-1.691.276zM212.416 19.637v-3.796c0-4.626-2.197-6.783-6.912-6.783-4.326 0-7.122 2.268-7.122 5.78v.1h4.222v-.1c0-1.291 1.143-2.192 2.781-2.192 2.288 0 2.584 1.84 2.597 2.696l-5.065.432c-3.371.275-5.078 1.871-5.078 4.74s1.89 4.43 5.056 4.43c2.83 0 4.721-1.449 5.147-3.849.104 1.364.338 2.48.707 3.377l.025.065h4.453l-.06-.135c-.546-1.259-.751-2.55-.751-4.765m-4.437-2.021v.138c0 2.033-1.805 3.288-3.478 3.288-.975 0-2.14-.26-2.14-1.499 0-.87.404-1.331 2.702-1.595l2.919-.332zM222.348 15.392c-2.203-.569-3.399-1.038-3.399-1.883 0-.528.461-1.144 1.755-1.144s2.701 1.038 3.711 2.775l.047.085 3.529-1.614-.048-.09C226.416 10.69 223.639 9 220.511 9c-4.605 0-6.239 2.444-6.239 4.538s1.395 3.42 4.816 4.336c2.935.728 4.244 1.464 4.244 2.391 0 .871-.678 1.37-1.865 1.37-1.789 0-3.298-1.259-4.364-3.644l-.041-.09-3.586 1.343.029.088c1.196 3.55 4.305 5.668 8.313 5.668 3.642 0 6.182-1.995 6.182-4.85 0-3.068-2.796-4.033-5.662-4.76zM71.92 9.1c-2.597 0-4.368 1.358-4.961 3.708h-.218v-3.3h-4.434v15.07h4.434V16.29c0-1.816 1.297-3.133 3.083-3.133 2.146 0 2.598 1.772 2.598 3.26v8.16h4.434v-9.229c0-4.145-1.66-6.249-4.936-6.249m-5.179 5.271v.038zM112.019 9.1c-2.607 0-4.377 1.37-4.964 3.734v-.023h-.211v-3.3h-4.435v15.07h4.435v-8.288c0-1.816 1.297-3.133 3.083-3.133 2.146 0 2.597 1.772 2.597 3.259v8.162h4.434v-9.23c0-4.145-1.66-6.249-4.936-6.249zm-5.179 5.271v.038zM197.457 9.1c-2.657 0-4.188 1.164-4.778 3.708h-.186v-3.3h-4.434v15.07h4.434v-7.22c0-2.558 1.139-3.509 4.206-3.509h.868V9.102h-.107zM180.522 9.507v8.288c0 2.153-1.597 3.133-3.083 3.133s-2.172-.921-2.172-2.82v-8.6h-4.434v9.856c0 4.647 2.569 5.621 4.725 5.621 2.638 0 4.346-1.46 4.828-4.054h.136v3.647h4.434V9.508z"/>
+        </svg>
+      </div>
+
+      <nav class="navActions" aria-label="Navegación">
+        <a class="navLink" href="#como">Cómo se usa</a>
+        <a class="navLink" href="#precio">Precio</a>
+        <a class="navLink" href="#faq">Preguntas</a>
+        <button class="btn btnSmall" id="buyTop">Reservar acceso</button>
+      </nav>
+    </header>
+
+    <main class="grid">
+
+      <!-- IZQUIERDA -->
+      <section class="card">
+        <div class="hero">
+          <div class="kicker">Lista de regalos moderna</div>
+          <h1>Regalos sin vueltas: dinero o productos, en una sola plataforma.</h1>
+          <p class="sub">
+            Crea tu evento, compártelo con tus invitados y recibe tus regalos de forma simple.
+            Estamos abriendo cupos de <b>acceso anticipado</b>.
+          </p>
+
+          <div class="heroCtas">
+            <button class="btn" id="buyHero">Reservar acceso</button>
+            <a class="btn btnGhost" href="#como">Ver cómo funciona</a>
+          </div>
+
+          <div class="badges" aria-label="Beneficios rápidos">
+            <div class="badge">Sin confusiones</div>
+            <div class="badge">Rápido de usar</div>
+            <div class="badge">Para novios e invitados</div>
+          </div>
+        </div>
+
+        <div class="benefits" aria-label="Beneficios">
+          <div class="benefit">
+            <b>Más claro</b>
+            <p>Opciones simples para que tus invitados elijan sin enredos.</p>
+          </div>
+          <div class="benefit">
+            <b>Más rápido</b>
+            <p>En minutos creas tu lista y la compartes con un link.</p>
+          </div>
+          <div class="benefit">
+            <b>Más control</b>
+            <p>Recibe tus regalos y gestiona todo desde un solo lugar.</p>
+          </div>
+        </div>
+
+        <!-- ✅ Quitado: la sección "¿Qué estás validando aquí?" y cualquier bloque de "métricas" -->
+        <div class="section" id="como">
+          <h2>Cómo se usa</h2>
+
+          <div class="steps">
+            <div class="step">
+              <div class="num">1</div>
+              <div>
+                <h3 style="font-size:18px;">Crea tu evento</h3>
+                <p>Configura tu lista y elige si recibes dinero o productos.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">2</div>
+              <div>
+                <h3 style="font-size:18px;">Personalízalo</h3>
+                <p>Agrega detalles y deja todo listo para tus invitados.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">3</div>
+              <div>
+                <h3 style="font-size:18px;">Compártelo</h3>
+                <p>Tus invitados podrán elegir su regalo y confirmar en pocos clics.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">4</div>
+              <div>
+                <h3 style="font-size:18px;">Disfruta</h3>
+                <p>Recibe tus regalos y úsalos cuándo y cómo lo necesites.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ✅ Link a YouTube -->
+          <div class="videoRow">
+            <a class="videoLink" href="https://www.youtube.com/watch?v=Cgpkw4P5Qzk" target="_blank" rel="noopener">
+              ▶ Ver video en YouTube
+            </a>
+            <span style="color:var(--muted); font-weight:650;">
+              Tutotial | Cómo crear tu web en 3 simples pasos
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- DERECHA (Precio + CTA) -->
+      <aside class="card" id="precio">
+        <div class="side">
+          <div class="priceBox">
+            <div class="priceTitle">Acceso anticipado</div>
+            <div class="price">S/ 99 <small>/ preventa</small></div>
+            <p class="priceNote">
+              Reserva tu acceso y sé de los primeros en usar Sin Envolturas.
+              <br><b>No se realiza ningún cobro en esta demo</b>; solo registramos tu interés.
+            </p>
+
+            <ul class="ul">
+              <li>Acceso antes del lanzamiento público</li>
+              <li>Beneficios de lanzamiento (promos y prioridad)</li>
+              <li>Soporte preferente en los primeros días</li>
+            </ul>
+
+            <div class="ctaBox">
+              <button class="btn" id="buyBtn">Reservar acceso</button>
+              <a class="btn btnGhost" href="#faq">Ver preguntas</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="faq">
+          <h2>Preguntas frecuentes</h2>
+
+          <details>
+            <summary>¿Mis invitados pueden regalar dinero o productos?</summary>
+            <p>Sí. En la plataforma podrás habilitar dinero, productos o ambos, según tu evento.</p>
+          </details>
+
+          <details>
+            <summary>¿Cómo reciben los novios los regalos?</summary>
+            <p>Reciben los aportes/confirmaciones dentro de su panel, con el detalle de cada invitado.</p>
+          </details>
+
+          <details>
+            <summary>¿Esto ya está disponible?</summary>
+            <p>Estamos en etapa de lanzamiento. Si reservas el acceso, te avisamos apenas esté habilitado.</p>
+          </details>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer class="footer">
+      <div>© <span id="year"></span> Sin Envolturas</div>
+      <div>Landing de preventa (para experimento de validación).</div>
+    </footer>
+  </div>
+
+  <!-- MODAL: Captura de datos -->
+  <div class="modalBack" id="modalBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalHeader">
+        <h3 id="modalTitle">Reserva tu acceso anticipado</h3>
+        <div class="x" id="closeBtn" aria-label="Cerrar">✕</div>
+      </div>
+
+      <form id="leadForm">
+        <div style="color:var(--muted); font-weight:650;">
+          Déjanos tus datos y te avisamos apenas esté disponible el acceso anticipado.
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="name">Nombre</label>
+            <input id="name" name="name" placeholder="Ej: Alejandro" required />
+          </div>
+          <div>
+            <label for="phone">Teléfono (opcional)</label>
+            <input id="phone" name="phone" placeholder="Ej: 999 999 999" />
+          </div>
+        </div>
+
+        <label for="email">Correo</label>
+        <input id="email" name="email" type="email" placeholder="tu@email.com" required />
+
+        <label for="role">¿Eres…?</label>
+        <select id="role" name="role" required>
+          <option value="" selected disabled>Selecciona una opción</option>
+          <option>Invitado</option>
+          <option>Novio / Novia</option>
+          <option>Proveedor / Tienda</option>
+        </select>
+
+        <div class="hint">* Esto es una preventa de validación. No se realiza pago aquí.</div>
+
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn" type="submit">Enviar</button>
+          <button class="btn btnGhost" type="button" id="cancelBtn">Ahora no</button>
+        </div>
+      </form>
+
+      <div class="success" id="success">
+        ✅ ¡Listo! Te avisaremos apenas esté disponible el acceso anticipado.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Año
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Modal controls
+    const modalBack = document.getElementById("modalBack");
+    const closeBtn = document.getElementById("closeBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const buyBtn = document.getElementById("buyBtn");
+    const buyHero = document.getElementById("buyHero");
+    const buyTop = document.getElementById("buyTop");
+    const leadForm = document.getElementById("leadForm");
+    const success = document.getElementById("success");
+
+    function openModal(){
+      modalBack.style.display = "flex";
+      modalBack.setAttribute("aria-hidden","false");
+      success.style.display = "none";
+      leadForm.style.display = "block";
+      setTimeout(()=>document.getElementById("name").focus(), 50);
+    }
+    function closeModal(){
+      modalBack.style.display = "none";
+      modalBack.setAttribute("aria-hidden","true");
+    }
+
+    buyBtn.addEventListener("click", openModal);
+    buyHero.addEventListener("click", openModal);
+    buyTop.addEventListener("click", openModal);
+
+    closeBtn.addEventListener("click", closeModal);
+    cancelBtn.addEventListener("click", closeModal);
+    modalBack.addEventListener("click", (e)=>{ if(e.target === modalBack) closeModal(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
+
+    // Submit demo (guarda en localStorage)
+    leadForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(leadForm).entries());
+
+      const leads = JSON.parse(localStorage.getItem("se_leads") || "[]");
+      leads.push({ ...data, ts: new Date().toISOString() });
+      localStorage.setItem("se_leads", JSON.stringify(leads));
+
+      leadForm.reset();
+      leadForm.style.display = "none";
+      success.style.display = "block";
+      console.log("[LEAD]", data);
+    });
+  </script>
+</body>
+</html>
